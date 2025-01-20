@@ -17,11 +17,9 @@ def main():
 	print("challenge can be found here: ")
 	print("https://showdownspace-rpa-challenge.vercel.app/challenge-hunting-fed83d58/")
 
-	
 	driver = webdriver.Firefox()
 	actions = ActionChains(driver)
 	
-	#Navigate to demoblaze
 	driver.get("https://showdownspace-rpa-challenge.vercel.app/challenge-hunting-fed83d58/")
 
 	start_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".chakra-button")))
@@ -52,14 +50,8 @@ def main():
 		if is_in_array(number_to_check, number_content):
 			box.click()
 
-
-
 	time.sleep(5)
 
-	#create object
-
-
-	# Close the browser
 	driver.quit()
 
 
