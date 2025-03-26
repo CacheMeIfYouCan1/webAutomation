@@ -4,7 +4,7 @@ import sys
 
 sys.path.append('../..')
 
-from _user_management_ui._002_login_logout.case_002_automated_login_logout import _002LoginLogout
+from _user_management_ui.case_002_automated_login_logout import _002LoginLogout
 
 def main():
 	try:

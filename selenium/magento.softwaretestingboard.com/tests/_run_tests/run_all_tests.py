@@ -9,10 +9,10 @@ import sys
 sys.path.append ('..')
 
 
-from _user_management_ui._001_register.case_001_automated_register import _001Register 
-from _user_management_ui._002_login_logout.case_002_automated_login_logout import _002LoginLogout
-from _user_management_ui._003_register_false_inputs.case_003_register_false_inputs import _003RegisterFalseInputs
-from _user_management_ui._004_login_false_inputs.case_004_login_false_inputs import _004LoginFalseInputs
+from _user_management_ui.case_001_automated_register import _001Register 
+from _user_management_ui.case_002_automated_login_logout import _002LoginLogout
+from _user_management_ui.case_003_register_false_inputs import _003RegisterFalseInputs
+from _user_management_ui.case_004_login_false_inputs import _004LoginFalseInputs
 
 def clear_browser_data(driver):
 	

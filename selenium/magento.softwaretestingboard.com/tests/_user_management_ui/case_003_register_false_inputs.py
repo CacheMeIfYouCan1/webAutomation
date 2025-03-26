@@ -9,12 +9,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 sys.path.append('../..')
 
-from _user_management_ui._user_management_resources.user_management_resources import UserManagementResources
-from _user_management_ui._001_register.case_001_automated_register import _001Register
-
-
-
-from _general_resources.general_resources import GeneralResources
+from _resources._user_management_resources.user_management_resources import UserManagementResources
+from _resources._general_resources.general_resources import GeneralResources
 
 
 
@@ -29,7 +25,7 @@ class _003RegisterFalseInputs:
 	def step_0(self):
 		# disagree on cookies
 		try:
-			GeneralResources.decline_cookies(self)
+			GeneralResources.accept_cookies(self)
 			step_0_passed = True
 		except TimeoutError as time_err:
 			print("Timoeut occured during first step: ", time_err)
@@ -43,7 +39,7 @@ class _003RegisterFalseInputs:
 	def step_1(self):
 		try:
 			# step 1: click on signup
-			_001Register.open_register_page(self)
+			UserManagementResources.open_register_page(self)
  
 			step_1_passed = True
 				
@@ -60,8 +56,8 @@ class _003RegisterFalseInputs:
 			try:
 				# send form empty 
 				register_button = WebDriverWait(self.driver, 1000).until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.submit')))
-
-				register_button.click()
+				register_button.click()				
+				
 				#check if hints are visible
 				locators = [
 				((By.ID, 'firstname-error')),
@@ -70,11 +66,23 @@ class _003RegisterFalseInputs:
 				((By.ID, 'password-error')),
 				((By.ID, 'password-confirmation-error')),
 				]
-			
-				if GeneralResources.check_for_visibility(self, locators) == True:
+
+				#need alt locators because sometimes a banner is displayedinstead the usual hints
+				alt_locators = [
+				((By.CSS_SELECTOR, 'div.messages:nth-child(1)'))
+				]
+
+				err_visible = GeneralResources.check_for_visibility(self, locators)
+				alt_err_visible = GeneralResources.check_for_visibility(self, alt_locators)
+
+				if err_visible["status"] == True or alt_err_visible["status"] == True: 
 					step_2_passed = True
 				else:
+					print("error occured, while finding element: ")
+					print(err_visible["message"])
+					print(alt_err_visible["message"])
 					step_2_passed = False
+						
 
 
 			except TimeoutError as time_err:

@@ -9,11 +9,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 sys.path.append('../..')
 
-from _general_resources.general_resources import GeneralResources
-from _user_management_ui._user_management_resources.user_management_resources import UserManagementResources
-from _user_management_ui._002_login_logout.case_002_automated_login_logout import _002LoginLogout
-
-
+from _resources._general_resources.general_resources import GeneralResources
+from _resources._user_management_resources.user_management_resources import UserManagementResources
 
 
 class _004LoginFalseInputs:
@@ -26,7 +23,7 @@ class _004LoginFalseInputs:
 	def step_0(self):
 		# disagree on cookies
 		try:
-			GeneralResources.decline_cookies(self)
+			GeneralResources.accept_cookies(self)
 			step_0_passed = True
 		except TimeoutError as time_err:
 			print("Timoeut occured during first step: ", time_err)
@@ -40,7 +37,7 @@ class _004LoginFalseInputs:
 	def step_1(self):
 		try:
 			# step 1: click on signup
-			_002LoginLogout.open_login_page(self)
+			UserManagementResources.open_login_page(self)
  
 			step_1_passed = True
 				
@@ -66,10 +63,21 @@ class _004LoginFalseInputs:
 			((By.ID, 'pass-error'))
 
 			]
+
+			#sometimes a banner is displayed instead of the hint in input, we need to check for that too
+			alt_locators = [
+			((By.CSS_SELECTOR, 'div.messages:nth-child(1)'))
+			]
 			
-			if GeneralResources.check_for_visibility(self, locators) == True:
+			err_visible = GeneralResources.check_for_visibility(self, locators)
+			alt_err_visible = GeneralResources.check_for_visibility(self, alt_locators)
+
+			if err_visible["status"] == True or alt_err_visible["status"] == True: 
 				step_2_passed = True
 			else:
+				print("error occured, while finding element: ")
+				print(err_visible["message"])
+				print(alt_err_visible["message"])
 				step_2_passed = False
 			
 
@@ -95,9 +103,12 @@ class _004LoginFalseInputs:
 
 			locator = [((By.CSS_SELECTOR, 'div.messages:nth-child(1)'))]
 
-			if GeneralResources.check_for_visibility(self, locator) == True:
+			find_element =  GeneralResources.check_for_visibility(self, locator)
+			
+			if find_element["status"] == True:
 				step_3_passed = True
 			else:
+				print("error occured, while finding element: ", find_element["message"])
 				step_3_passed = False
 				
 			

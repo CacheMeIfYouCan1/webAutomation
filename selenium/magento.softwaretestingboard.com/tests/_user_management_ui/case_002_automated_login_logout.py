@@ -9,8 +9,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 sys.path.append('../..')
 
-from  _user_management_ui._user_management_resources.user_management_resources import UserManagementResources
-from _general_resources.general_resources import GeneralResources
+from  _resources._user_management_resources.user_management_resources import UserManagementResources
+from _resources._general_resources.general_resources import GeneralResources
 
 
 
@@ -20,17 +20,12 @@ class _002LoginLogout:
 	def __init__(self, driver, actions):
 		self.driver = driver
 		self.actions = actions
-
-	def open_login_page(self):
-		sign_in_link = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'ul.header:nth-child(2) > li:nth-child(2) > a:nth-child(1)')))
-		sign_in_link.click()
-
 		
 
 	def step_0(self):
 		# disagree on cookies
 		try:
-			GeneralResources.decline_cookies(self)
+			GeneralResources.accept_cookies(self)
 			step_0_passed = True
 			
 			step_0_passed = True
@@ -45,7 +40,7 @@ class _002LoginLogout:
 	
 	def step_1(self):
 		try:
-			self.open_login_page()
+			UserManagementResources.open_login_page(self)
 			step_1_passed = True
 
 		except TimeoutError as time_err:
@@ -75,10 +70,14 @@ class _002LoginLogout:
 			sign_in_button.click()
 			
 			locator = [((By.CSS_SELECTOR, 'ul.header:nth-child(2) > li:nth-child(1)'))]
-			if GeneralResources.check_for_visibility(self, locator) == True:
+
+			find_element = GeneralResources.check_for_visibility(self, locator)
+			
+			if  find_element["status"] == True:
 				step_2_passed = True
 
 			else:
+				print("an error occured while finding the element: ", find_element["message"])
 				step_2_passed = False
 
 
@@ -97,9 +96,12 @@ class _002LoginLogout:
 			user_dropdown_element.click()
 
 			locator = [((By.CSS_SELECTOR, 'li.active > div:nth-child(2) > ul:nth-child(1)'))]
-			if GeneralResources.check_for_visibility(self, locator) == True:
+			find_element = GeneralResources.check_for_visibility(self, locator)
+			
+			if  find_element["status"] == True:
 				step_3_passed = True
 			else:
+				print("an error occured while finding the element: ", find_element["message"])
 				step_3_passed = False
 		except TimeoutError as time_err:
 			print("Timoeut occured during third step: ", time_err)
@@ -117,10 +119,14 @@ class _002LoginLogout:
 			logout_element.click()
 
 			locator = [((By.CSS_SELECTOR, 'ul.header:nth-child(2) > li:nth-child(2) > a:nth-child(1)'))]
-			if GeneralResources.check_for_visibility(self, locator) == True:
+			find_element = GeneralResources.check_for_visibility(self, locator)
+			
+			if  find_element["status"] == True:
 				step_4_passed = True
 			else:
+				print("an error occured while finding the element: ", find_element["message"])
 				step_4_passed = False
+
 		except TimeoutError as time_err:
 			print("Timoeut occured during fourth step: ", time_err)
 			step_4_passed = False

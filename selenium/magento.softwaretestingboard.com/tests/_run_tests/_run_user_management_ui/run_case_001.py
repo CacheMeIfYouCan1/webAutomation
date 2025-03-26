@@ -4,7 +4,7 @@ import sys
 
 sys.path.append('../..')
 
-from _user_management_ui._001_register.case_001_automated_register import _001Register 
+from _user_management_ui.case_001_automated_register import _001Register 
 
 def main():
 	try:

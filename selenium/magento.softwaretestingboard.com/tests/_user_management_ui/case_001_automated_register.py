@@ -8,8 +8,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 sys.path.append('../..')
-from _user_management_ui._user_management_resources.user_management_resources import UserManagementResources
-from _general_resources.general_resources import GeneralResources
+from _resources._user_management_resources.user_management_resources import UserManagementResources
+from _resources._general_resources.general_resources import GeneralResources
 
 
 
@@ -19,15 +19,11 @@ class _001Register:
 	def __init__(self, driver, actions):
 		self.driver = driver
 		self.actions = actions
-
-	def open_register_page(self):
-		register_link = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'ul.header:nth-child(2) > li:nth-child(3) > a:nth-child(1)')))
-		register_link.click()
-
+		
 	def step_0(self):
 		# disagree on cookies
 		try:
-			GeneralResources.decline_cookies(self)
+			GeneralResources.accept_cookies(self)
 			step_0_passed = True
 		except TimeoutError as time_err:
 			print("Timoeut occured during first step: ", time_err)
@@ -41,8 +37,7 @@ class _001Register:
 	def step_1(self):
 		try:
 			# open link to register form
-
-			self.open_register_page()
+			UserManagementResources.open_register_page(self)
 			step_1_passed = True
 
 		except TimeoutError as time_err:
@@ -81,10 +76,14 @@ class _001Register:
 			register_button.click()
 
 			locator = [((By.CSS_SELECTOR, '.message-success'))]
-			if GeneralResources.check_for_visibility(self, locator) == True:
-				step_2_passed = True
-						
 
+			find_element = GeneralResources.check_for_visibility(self, locator)
+			
+			if  find_element["status"] == True:
+				step_2_passed = True
+			else:
+				print("an error occured while finding the element: ", find_element["message"])
+				step_2_passed = False
 
 		except TimeoutError as time_err:
 			print("Timoeut occured during second step: ", time_err)

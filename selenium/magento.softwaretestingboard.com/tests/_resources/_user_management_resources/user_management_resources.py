@@ -43,4 +43,10 @@ class UserManagementResources:
 
 			return data
 			
-	
+	def open_register_page(self):
+		register_link = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'ul.header:nth-child(2) > li:nth-child(3) > a:nth-child(1)')))
+		register_link.click()
+
+	def open_login_page(self):
+		sign_in_link = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'ul.header:nth-child(2) > li:nth-child(2) > a:nth-child(1)')))
+		sign_in_link.click()

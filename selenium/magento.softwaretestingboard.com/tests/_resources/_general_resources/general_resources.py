@@ -17,14 +17,11 @@ class GeneralResources:
 		try: 
 			for locator in locators:
 				error_text_element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(locator))
-			return True
+			return {"status": True, "message": "Successfully found elements"}
 		except Exception as err:
-			print(err)
-			return False 
-
-	#decline cookies
-	def decline_cookies(self):
-		cookie_dialogue_button = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'button.css-p968ta:nth-child(2)')))
+			return {"status": False, "message": err}
+	
+	
+	def accept_cookies(self):
+		cookie_dialogue_button = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.ID, 'accept-btn')))
 		cookie_dialogue_button.click()
-			
-		cookie_doalogue = WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located((By.CSS_SELECTOR, '.qc-cmp-cleanslate')))

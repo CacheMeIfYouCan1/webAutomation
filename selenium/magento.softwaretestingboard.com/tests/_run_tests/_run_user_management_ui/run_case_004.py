@@ -4,7 +4,7 @@ import sys
 
 sys.path.append('../..')
 
-from _user_management_ui._004_login_false_inputs.case_004_login_false_inputs import _004LoginFalseInputs
+from _user_management_ui.case_004_login_false_inputs import _004LoginFalseInputs
 
 
 

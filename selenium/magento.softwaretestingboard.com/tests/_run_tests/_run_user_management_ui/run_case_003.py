@@ -4,7 +4,7 @@ import sys
 
 sys.path.append('../..')
 
-from _user_management_ui._003_register_false_inputs.case_003_register_false_inputs import _003RegisterFalseInputs
+from _user_management_ui.case_003_register_false_inputs import _003RegisterFalseInputs
 
 
 
